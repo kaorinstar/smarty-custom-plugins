@@ -45,9 +45,7 @@ function smarty_modifier_unescape_tag($string, $tags = null)
                  . Smarty::$_UTF8_MODIFIER;
     }
 
-    preg_match_all($pattern, $string, $matches);
-
-    if (isset($matches[0])) {
+    if (preg_match_all($pattern, $string, $matches)) {
         $characters = array('<', '>', '"', '\'');
         $entities   = array('&lt;', '&gt;', '&quot;', '&#039;');
         $matches[0] = array_unique($matches[0]);
