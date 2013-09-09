@@ -41,7 +41,7 @@ function smarty_modifier_unescape_tag($string, $tags = null)
                  . Smarty::$_UTF8_MODIFIER;
     } else {
         $pattern = '/&lt;\/?(?:' . str_replace("\x20", '', str_replace(',', '|', preg_quote(implode(',', (array)$tags), '/')))
-                 . ")(?:|[^0-9a-zA-Z][^&]*|\x20[^&]*(?:&quot;.*?&quot;[^&]*|&#039;.*?&#039;[^&]*)*)(?:&gt;|(?=&lt;)|$(?!\x0A))/is"
+                 . ")(?:|[^&a-zA-Z0-9][^&]*(?:&quot;.*?&quot;[^&]*|&#039;.*?&#039;[^&]*)*)(?:&gt;|(?=&lt;)|$(?!\x0A))/is"
                  . Smarty::$_UTF8_MODIFIER;
     }
 
