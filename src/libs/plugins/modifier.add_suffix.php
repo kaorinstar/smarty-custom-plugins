@@ -32,7 +32,7 @@
  *
  * @param string  $path   path
  * @param string  $suffix suffix
- * @return string added suffix path.
+ * @return string added suffix path
  */
 function smarty_modifier_add_suffix($path, $suffix)
 {
