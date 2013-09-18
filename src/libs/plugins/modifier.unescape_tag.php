@@ -45,15 +45,11 @@ function smarty_modifier_unescape_tag($string, $tags = null)
                  . Smarty::$_UTF8_MODIFIER;
     }
 
-    if (preg_match_all($pattern, $string, $matches)) {
-        $characters = array('<', '>', '"', '\'');
-        $entities   = array('&lt;', '&gt;', '&quot;', '&#039;');
-        $matches[0] = array_unique($matches[0]);
-        foreach ($matches[0] as $match) {
-            $replacement = str_replace($entities, $characters, $match);
-            $string      = str_replace($match, $replacement, $string);
-        }
-    }
+    $string = preg_replace_callback(
+        $pattern,
+        create_function('$matches', "return str_replace(array('&lt;', '&gt;', '&quot;', '&#039;'), array('<', '>', '\"', '\\''), \$matches[0]);"),
+        $string
+    );
 
     return $string;
 }
