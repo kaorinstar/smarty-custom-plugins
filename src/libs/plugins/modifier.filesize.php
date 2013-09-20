@@ -91,7 +91,7 @@ function smarty_modifier_filesize($path, $symbol = '', $decimals = 0, $separator
         $size = str_replace(',', '', $size);
     }
 
-    return $size.$symbol;
+    return $size . $symbol;
 }
 
 ?>

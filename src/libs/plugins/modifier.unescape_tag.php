@@ -36,12 +36,14 @@
  */
 function smarty_modifier_unescape_tag($string, $tags = null)
 {
+    $string = str_replace(array("\x0D\x0A", "\x0D"), "\x0A", $string);
+
     if ($tags === null) {
-        $pattern = "/&lt;[^&]*(?:&quot;.*?&quot;[^&]*|&#039;.*?&#039;[^&]*)*(?:&gt;|(?=&lt;)|$(?!\x0A))/is"
+        $pattern = "/&lt;[^&]*(?:&quot;.*?&quot;[^&]*|&#039;.*?&#039;[^&]*)*(?:&gt;|(?=&lt;)|\z)/is"
                  . Smarty::$_UTF8_MODIFIER;
     } else {
         $pattern = '/&lt;\/?(?:' . str_replace("\x20", '', str_replace(',', '|', preg_quote(implode(',', (array)$tags), '/')))
-                 . ")(?:|[^&a-zA-Z0-9][^&]*(?:&quot;.*?&quot;[^&]*|&#039;.*?&#039;[^&]*)*)(?:&gt;|(?=&lt;)|$(?!\x0A))/is"
+                 . ")(?:|[^&a-zA-Z0-9][^&]*(?:&quot;.*?&quot;[^&]*|&#039;.*?&#039;[^&]*)*)(?:&gt;|(?=&lt;)|\z)/is"
                  . Smarty::$_UTF8_MODIFIER;
     }
 
