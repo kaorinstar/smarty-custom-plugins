@@ -3,30 +3,35 @@
 This is Smarty custom plugins.
 
 ## Table of Contents
-1. Installation
-2. Uninstallation
-3. References
-4. Acknowledgements
-5. License
+1. Requirements
+2. Installation
+3. Uninstallation
+4. References
+5. Acknowledgements
+6. License
 
-## 1. Installation
+## 1. Requirements
+  * Smarty custom plugins 2.x: PHP 5.3+
+  * Smarty custom plugins 1.x: PHP 4 or 5
+
+## 2. Installation
 1. Download Smarty custom plugins.
 
 2. Copy plugin files to the plugins directory of Smarty.
 
 
-## 2. Uninstallation
+## 3. Uninstallation
 1. Delete plugin files from the plugins directory of Smarty.
 
 
-## 3. References
+## 4. References
 * OHZAKI Hiroki. [Perl memo][LINK-OHZAKI].
 * Dan Kogai. [404 Blog Not Found][LINK-DANKOGAI].
 
-## 4. Acknowledgements
+## 5. Acknowledgements
 Special thanks to bloggers who inspired.
 
-## 5. License
+## 6. License
 Copyright &copy; 2013 Kaoru Ishikura.  
 Licensed under the [LGPL Version 2.1 licenses][LGPL].
 

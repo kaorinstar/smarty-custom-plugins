@@ -37,50 +37,46 @@
 function smarty_modifier_mail2link($string)
 {
     require_once(SMARTY_PLUGINS_DIR . 'function.mailto.php');
+    $string = str_replace(array("\x0D\x0A", "\x0D"), "\x0A", $string);
 
-    $string  = str_replace(array("\x0D\x0A", "\x0D"), "\x0A", $string);
     $pattern = "/(?:\A|<\/(?:a|pre|script|style|textarea)(?:|[^\"'<>a-zA-Z0-9][^\"'<>]*(?:\"[^\"]*\"[^\"'<>]*|'[^']*'[^\"'<>]*)*)(?:>|(?=<)|\z)).*?"
              . "(?:\z|<(?:a|pre|script|style|textarea)(?:|[^\"'<>a-zA-Z0-9][^\"'<>]*(?:\"[^\"]*\"[^\"'<>]*|'[^']*'[^\"'<>]*)*)(?:>|(?=<)|\z))/is"
              . Smarty::$_UTF8_MODIFIER;
+    $string  = preg_replace_callback(
+        $pattern,
+        function($matches)
+        {
+            $pattern    = "/(?:\A|(?<=>))(?:[^<>\x0A][^<>]*?|\x0A[^<>]+?)(?:(?=[<>])|\z)/is"
+                        . Smarty::$_UTF8_MODIFIER;
+            $matches[0] = preg_replace_callback(
+                $pattern,
+                function($matches)
+                {
+                    if (trim($matches[0]) !== '') {
+                        $pattern    = "/(?:(?:(?:(?:[a-zA-Z0-9_!#\$\%&'*+\/=?\^`{}~|\-]+)(?:\.(?:[a-zA-Z0-9_!#\$\%&'*+\/=?\^`{}~|\-]+))*)|(?:\"(?:\\[^\x0D\x0A]|[^\\\"])*\")))"
+                                    . "@(?:(?:(?:[a-zA-Z0-9_!#\$\%&'*+\/=?\^`{}~|\-]+)(?:\.(?:[a-zA-Z0-9_!#\$\%&'*+\/=?\^`{}~|\-]+))*))/"
+                                    . Smarty::$_UTF8_MODIFIER;
+                        $matches[0] = preg_replace_callback(
+                            $pattern,
+                            function($matches)
+                            {
+                                return smarty_function_mailto(array('address' => $matches[0], 'encode'  => 'hex'), null);
+                            },
+                            $matches[0]
+                        );
+                    }
 
-    return preg_replace_callback($pattern, '_smarty_modifier_mail2link_func1', $string);
-}
+                    return $matches[0];
+                },
+                $matches[0]
+            );
 
-/**
- * @param array $matches matche strings
- * @return string linked to emails string
- */
-function _smarty_modifier_mail2link_func1($matches)
-{
-    $pattern = "/(?:\A|(?<=>))(?:[^<>\x0A][^<>]*?|\x0A[^<>]+?)(?:(?=[<>])|\z)/is"
-             . Smarty::$_UTF8_MODIFIER;
+            return $matches[0];
+        },
+        $string
+    );
 
-    return preg_replace_callback($pattern, '_smarty_modifier_mail2link_func2', $matches[0]);
-}
-
-/**
- * @param array $matches matche strings
- * @return string linked to emails string
- */
-function _smarty_modifier_mail2link_func2($matches)
-{
-    if (trim($matches[0]) !== '') {
-        $pattern    = "/(?:(?:(?:(?:[a-zA-Z0-9_!#\$\%&'*+\/=?\^`{}~|\-]+)(?:\.(?:[a-zA-Z0-9_!#\$\%&'*+\/=?\^`{}~|\-]+))*)|(?:\"(?:\\[^\x0D\x0A]|[^\\\"])*\")))"
-                    . "\@(?:(?:(?:[a-zA-Z0-9_!#\$\%&'*+\/=?\^`{}~|\-]+)(?:\.(?:[a-zA-Z0-9_!#\$\%&'*+\/=?\^`{}~|\-]+))*))/"
-                    . Smarty::$_UTF8_MODIFIER;
-        $matches[0] = preg_replace_callback($pattern, '_smarty_modifier_mail2link_func3', $matches[0]);
-    }
-
-    return $matches[0];
-}
-
-/**
- * @param array $matches matche strings
- * @return string linked to mails string
- */
-function _smarty_modifier_mail2link_func3($matches)
-{
-    return smarty_function_mailto(array('address' => $matches[0], 'encode'  => 'hex'), null);
+    return $string;
 }
 
 ?>

@@ -36,7 +36,7 @@
  */
 function smarty_modifier_nl2br($string, $xhtml = false)
 {
-    $tag    = ($xhtml) ? '<br />' : '<br>';
+    $tag    = (($xhtml) ? '<br />' : '<br>') . "\x0A";
     $string = str_replace(array("\x0D\x0A", "\x0D"), "\x0A", $string);
 
     // Replace line breaks to space in tags
@@ -44,7 +44,10 @@ function smarty_modifier_nl2br($string, $xhtml = false)
              . Smarty::$_UTF8_MODIFIER;
     $string  = preg_replace_callback(
         $pattern,
-        create_function('$matches', 'return str_replace("\x0A", "\x20", $matches[0]);'),
+        function($matches)
+        {
+            return str_replace("\x0A", "\x20", $matches[0]);
+        },
         $string
     );
 
@@ -53,7 +56,10 @@ function smarty_modifier_nl2br($string, $xhtml = false)
              . Smarty::$_UTF8_MODIFIER;
     $string  = preg_replace_callback(
         $pattern,
-        create_function('$matches', 'return str_replace("\x0A", "' . $tag . '\x0A", $matches[0]);'),
+        function($matches) use($tag)
+        {
+            return str_replace("\x0A", $tag, $matches[0]);
+        },
         $string
     );
 
@@ -63,7 +69,10 @@ function smarty_modifier_nl2br($string, $xhtml = false)
              . Smarty::$_UTF8_MODIFIER;
     $string  = preg_replace_callback(
         $pattern,
-        create_function('$matches', 'return str_replace("' . $tag . '\x0A", "\x0A", $matches[0]);'),
+        function($matches) use($tag)
+        {
+            return str_replace($tag, "\x0A", $matches[0]);
+        },
         $string
     );
 

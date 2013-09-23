@@ -49,7 +49,10 @@ function smarty_modifier_unescape_tag($string, $tags = null)
 
     $string = preg_replace_callback(
         $pattern,
-        create_function('$matches', "return str_replace(array('&lt;', '&gt;', '&quot;', '&#039;'), array('<', '>', '\"', '\\''), \$matches[0]);"),
+        function($matches)
+        {
+            return str_replace(array('&lt;', '&gt;', '&quot;', '&#039;'), array('<', '>', '"', '\''), $matches[0]);
+        },
         $string
     );
 
