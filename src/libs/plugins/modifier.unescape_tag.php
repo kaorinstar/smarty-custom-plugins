@@ -23,16 +23,16 @@
  */
 
 /**
- * Smarty unescape entity tag modifier plugin
+ * Smarty unescape tags modifier plugin
  *
  * Type:     modifier<br>
  * Name:     unescape_tag<br>
- * Purpose:  unescape entity tag<br>
- * Examples: {$string|unescape:'a,b,strong'}
+ * Purpose:  gets html string including specified unescape tags<br>
+ * Examples: {$string|unescape_tag:'a,b,strong'}
  *
- * @param string  $string input string
+ * @param string  $string html string
  * @param mixed   $tags   unescape tags, comma separated list of tag names or array of tag names
- * @return string unescaped input html string
+ * @return string returns html string including specified unescape tags
  */
 function smarty_modifier_unescape_tag($string, $tags = null)
 {

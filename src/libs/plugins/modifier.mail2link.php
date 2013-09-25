@@ -23,15 +23,15 @@
  */
 
 /**
- * Smarty link to email addresses modifier plugin
+ * Smarty link to emails modifier plugin
  *
  * Type:     modifier<br>
  * Name:     mail2link<br>
- * Purpose:  link to email addresses<br>
+ * Purpose:  gets html string including automatically linked emails<br>
  * Examples: {$string|mail2link}
  *
- * @param string $string input string
- * @return string linked to emails addresses string
+ * @param string $string html string
+ * @return string returns html string including automatically linked emails
  * @uses smarty_function_mailto()
  */
 function smarty_modifier_mail2link($string)

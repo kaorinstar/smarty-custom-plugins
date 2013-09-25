@@ -23,16 +23,16 @@
  */
 
 /**
- * Smarty inserts html line breaks modifier plugin
+ * Smarty insert br tags modifier plugin
  *
  * Type:     modifier<br>
  * Name:     nl2br<br>
- * Purpose:  inserts html line breaks before all newlines in a string<br>
+ * Purpose:  gets html string including automatically inserted br tags<br>
  * Examples: {$string|nl2br}
  *
- * @param string  $string input string
+ * @param string  $string html string
  * @param boolean $xhtml  xhtml compatible line breaks or not
- * @return string inserted html line breaks string
+ * @return string returns html string including automatically inserted br tags
  */
 function smarty_modifier_nl2br($string, $xhtml = false)
 {
@@ -51,7 +51,7 @@ function smarty_modifier_nl2br($string, $xhtml = false)
         $string
     );
 
-    // Replace line breaks to html line breaks
+    // Replace line breaks to br tags
     $pattern = "/(?<![>\x09\x20])([\x09\x20]*\x0A[\x09\x0A\x20]*)(?![<\x09\x0A\x20])/is"
              . Smarty::$_UTF8_MODIFIER;
     $string  = preg_replace_callback(
@@ -63,7 +63,7 @@ function smarty_modifier_nl2br($string, $xhtml = false)
         $string
     );
 
-    // Remove html line breaks to line breaks in between specified tags
+    // Remove br tags in between specified tags
     $pattern = "/<(pre|script|style|textarea)(?:|[^\"'<>a-zA-Z0-9][^\"'<>]*(?:\"[^\"]*\"[^\"'<>]*|'[^']*'[^\"'<>]*)*)(?:>|(?=<)|\z).*?"
              . "<\/\\1(?:|[^\"'<>a-zA-Z0-9][^\"'<>]*(?:\"[^\"]*\"[^\"'<>]*|'[^']*'[^\"'<>]*)*)(?:>|(?=<)|\z)/is"
              . Smarty::$_UTF8_MODIFIER;
