@@ -27,12 +27,12 @@
  *
  * Type:     modifier<br>
  * Name:     url2link<br>
- * Purpose:  link to urls<br>
+ * Purpose:  gets html string including automatically linked urls<br>
  * Examples: {$string|url2link}
  *
- * @param string $string input string
+ * @param string $string html string
  * @param string $target target attribute
- * @return string linked to urls string
+ * @return string returns html string including automatically linked urls
  */
 $_smarty_modifier_url2link_var_target = null;
 function smarty_modifier_url2link($string, $target = null)
@@ -50,7 +50,7 @@ function smarty_modifier_url2link($string, $target = null)
 
 /**
  * @param array $matches matche strings
- * @return string linked to urls string
+ * @return string returns html string including automatically linked urls
  */
 function _smarty_modifier_url2link_func1($matches)
 {
@@ -62,7 +62,7 @@ function _smarty_modifier_url2link_func1($matches)
 
 /**
  * @param array $matches matche strings
- * @return string linked to urls string
+ * @return string returns html string including automatically linked urls
  */
 function _smarty_modifier_url2link_func2($matches)
 {

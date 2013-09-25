@@ -27,14 +27,14 @@
  *
  * Type:     modifier<br>
  * Name:     filesize<br>
- * Purpose:  file size<br>
- * Examples: {$path|filesize:'kb'}
+ * Purpose:  gets the size of the file with specified unit conversion<br>
+ * Examples: {$path|filesize:'kB':2}
  *
  * @param string  $path      file path
  * @param string  $symbol    unit symbol
  * @param integer $decimals  decimal points
  * @param boolean $separator thousands separator
- * @return string file size
+ * @return string returns the size of the file with specified unit conversion
  */
 
 function smarty_modifier_filesize($path, $symbol = '', $decimals = 0, $separator = true)

@@ -27,12 +27,12 @@
  *
  * Type:     modifier<br>
  * Name:     add_suffix<br>
- * Purpose:  add suffix to file name before extension<br>
+ * Purpose:  gets the path with specified suffix before extension<br>
  * Examples: {$path|add_suffix:'_s'}
  *
- * @param string  $path   path
+ * @param string  $path   file path
  * @param string  $suffix suffix
- * @return string added suffix path
+ * @return string returns the path with specified suffix before extension
  */
 function smarty_modifier_add_suffix($path, $suffix)
 {
