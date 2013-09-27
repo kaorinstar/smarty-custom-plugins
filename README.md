@@ -73,4 +73,4 @@ Special thanks to bloggers who inspired.
 
 ## 8. License
 Copyright &copy; 2013 Kaoru Ishikura.  
-Licensed under the [LGPL Version 2.1 licenses](http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html).
+Released under the [LGPL Version 2.1 license](https://github.com/kaorinstar/smarty-custom-plugins/blob/master/LICENSE).
