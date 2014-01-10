@@ -40,8 +40,7 @@ function smarty_modifier_mail2link($string)
 
     $string  = str_replace(array("\x0D\x0A", "\x0D"), "\x0A", $string);
     $pattern = "/(?:\A|<\/(?:a|pre|script|style|textarea)(?:|[^\"'<>a-zA-Z0-9][^\"'<>]*(?:\"[^\"]*\"[^\"'<>]*|'[^']*'[^\"'<>]*)*)(?:>|(?=<)|\z)).*?"
-             . "(?:\z|<(?:a|pre|script|style|textarea)(?:|[^\"'<>a-zA-Z0-9][^\"'<>]*(?:\"[^\"]*\"[^\"'<>]*|'[^']*'[^\"'<>]*)*)(?:>|(?=<)|\z))/is"
-             . Smarty::$_UTF8_MODIFIER;
+             . "(?:\z|<(?:a|pre|script|style|textarea)(?:|[^\"'<>a-zA-Z0-9][^\"'<>]*(?:\"[^\"]*\"[^\"'<>]*|'[^']*'[^\"'<>]*)*)(?:>|(?=<)|\z))/isu";
 
     return preg_replace_callback($pattern, '_smarty_modifier_mail2link_func1', $string);
 }
@@ -52,8 +51,7 @@ function smarty_modifier_mail2link($string)
  */
 function _smarty_modifier_mail2link_func1($matches)
 {
-    $pattern = "/(?:\A|(?<=>))(?:[^<>\x0A][^<>]*?|\x0A[^<>]+?)(?:(?=[<>])|\z)/is"
-             . Smarty::$_UTF8_MODIFIER;
+    $pattern = "/(?:\A|(?<=>))(?:[^<>\x0A][^<>]*?|\x0A[^<>]+?)(?:(?=[<>])|\z)/isu";
 
     return preg_replace_callback($pattern, '_smarty_modifier_mail2link_func2', $matches[0]);
 }
@@ -66,8 +64,7 @@ function _smarty_modifier_mail2link_func2($matches)
 {
     if (trim($matches[0]) !== '') {
         $pattern    = "/(?:(?:(?:(?:[a-zA-Z0-9_!#\$\%&'*+\/=?\^`{}~|\-]+)(?:\.(?:[a-zA-Z0-9_!#\$\%&'*+\/=?\^`{}~|\-]+))*)|(?:\"(?:\\[^\x0D\x0A]|[^\\\"])*\")))"
-                    . "\@(?:(?:(?:[a-zA-Z0-9_!#\$\%&'*+\/=?\^`{}~|\-]+)(?:\.(?:[a-zA-Z0-9_!#\$\%&'*+\/=?\^`{}~|\-]+))*))/"
-                    . Smarty::$_UTF8_MODIFIER;
+                    . "\@(?:(?:(?:[a-zA-Z0-9_!#\$\%&'*+\/=?\^`{}~|\-]+)(?:\.(?:[a-zA-Z0-9_!#\$\%&'*+\/=?\^`{}~|\-]+))*))/u";
         $matches[0] = preg_replace_callback($pattern, '_smarty_modifier_mail2link_func3', $matches[0]);
     }
 

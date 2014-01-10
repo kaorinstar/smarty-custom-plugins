@@ -45,10 +45,10 @@ function smarty_modifier_add_suffix($path, $suffix)
     // Set a separator character
     $separator = '';
     if ($dirname !== '') {
-        if (Smarty::$_MBSTRING) {
-            if ($dirname !== '/' && mb_strrpos($dirname, '/', 0, Smarty::$_CHARSET) !== false) {
+        if (extension_loaded('mbstring')) {
+            if ($dirname !== '/' && mb_strrpos($dirname, '/', 0, 'UTF-8') !== false) {
                 $separator = '/';
-            } else if ($dirname !== '\\' && mb_strrpos($dirname, '\\', 0, Smarty::$_CHARSET) !== false) {
+            } else if ($dirname !== '\\' && mb_strrpos($dirname, '\\', 0, 'UTF-8') !== false) {
                 $separator = '\\';
             }
         } else {
@@ -62,14 +62,14 @@ function smarty_modifier_add_suffix($path, $suffix)
 
     // Set a file name and a file name extension
     $basename = basename($path);
-    if (Smarty::$_MBSTRING) {
-        $position = mb_strrpos($basename, '.', 0, Smarty::$_CHARSET);
+    if (extension_loaded('mbstring')) {
+        $position = mb_strrpos($basename, '.', 0, 'UTF-8');
         if ($position === false) {
             $filename  = $basename;
             $extension = '';
         } else {
-            $filename  = mb_substr($basename, 0, $position, Smarty::$_CHARSET);
-            $extension = mb_substr($basename, $position, mb_strlen($basename, Smarty::$_CHARSET), Smarty::$_CHARSET);
+            $filename  = mb_substr($basename, 0, $position, 'UTF-8');
+            $extension = mb_substr($basename, $position, mb_strlen($basename, 'UTF-8'), 'UTF-8');
         }
     } else {
         $position = strrpos($basename, '.');
