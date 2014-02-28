@@ -10,7 +10,7 @@ This is Smarty custom plugins.
 [5. Development](#5-development)  
 [6. References](#6-references)  
 [7. Acknowledgements](#7-acknowledgements)  
-[8. License](#8-license)
+[8. Copyright &amp; License](#8-copyright--license)
 
 ## 1. Requirements
 * Smarty custom plugins 2.x: PHP 5.3+, Smarty 3+
@@ -71,6 +71,6 @@ Returns HTML string including automatically linked URLs.
 ## 7. Acknowledgements
 Special thanks to bloggers who inspired.
 
-## 8. License
-Copyright &copy; 2013 Kaoru Ishikura.  
+## 8. Copyright &amp; License
+Copyright &copy; 2014 Kaoru Ishikura.  
 Released under the [LGPL Version 2.1 license](https://github.com/kaorinstar/smarty-custom-plugins/blob/master/LICENSE).
