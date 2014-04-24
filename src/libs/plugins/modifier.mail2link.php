@@ -27,11 +27,11 @@
  *
  * Type:     modifier<br>
  * Name:     mail2link<br>
- * Purpose:  gets html string including automatically linked emails<br>
+ * Purpose:  gets html string contain automatically linked emails<br>
  * Examples: {$string|mail2link}
  *
  * @param string $string html string
- * @return string returns html string including automatically linked emails
+ * @return string returns html string contain automatically linked emails
  * @uses smarty_function_mailto()
  */
 function smarty_modifier_mail2link($string)

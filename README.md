@@ -30,6 +30,12 @@ Returns the path with specified suffix before extension.
     {$path|add_suffix:'_s'}
 ```
 
+### escape_json
+Returns the string contain escaped json special characters.  
+```php
+    {$string|escape_json}
+```
+
 ### filesize
 Returns the size of the file with specified unit conversion.  
 ```php
@@ -37,25 +43,25 @@ Returns the size of the file with specified unit conversion.
 ```
 
 ### mail2link
-Returns HTML string including automatically linked emails.  
+Returns HTML string contain automatically linked emails.  
 ```php
     {$string|mail2link}
 ```
 
 ### nl2br
-Returns HTML string including automatically inserted br tags.  
+Returns HTML string contain automatically inserted br tags.  
 ```php
     {$string|nl2br}
 ```
 
 ### unescape_tag
-Returns HTML string including specified unescape tags.  
+Returns HTML string contain specified unescape tags.  
 ```php
     {$string|unescape_tag:'a,b,strong'}
 ```
 
 ### url2link
-Returns HTML string including automatically linked URLs.  
+Returns HTML string contain automatically linked URLs.  
 ```php
     {$string|url2link}
 ```

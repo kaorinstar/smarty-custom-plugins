@@ -27,12 +27,12 @@
  *
  * Type:     modifier<br>
  * Name:     url2link<br>
- * Purpose:  gets html string including automatically linked urls<br>
+ * Purpose:  gets html string contain automatically linked urls<br>
  * Examples: {$string|url2link}
  *
  * @param string $string html string
  * @param string $target target attribute
- * @return string returns html string including automatically linked urls
+ * @return string returns html string contain automatically linked urls
  */
 function smarty_modifier_url2link($string, $target = null)
 {
