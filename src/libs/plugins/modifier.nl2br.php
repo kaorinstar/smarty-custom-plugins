@@ -27,12 +27,12 @@
  *
  * Type:     modifier<br>
  * Name:     nl2br<br>
- * Purpose:  gets html string including automatically inserted br tags<br>
+ * Purpose:  gets html string contain automatically inserted br tags<br>
  * Examples: {$string|nl2br}
  *
  * @param string  $string html string
  * @param boolean $xhtml  xhtml compatible line breaks or not
- * @return string returns html string including automatically inserted br tags
+ * @return string returns html string contain automatically inserted br tags
  */
 function smarty_modifier_nl2br($string, $xhtml = false)
 {
@@ -48,7 +48,7 @@ function smarty_modifier_nl2br($string, $xhtml = false)
     );
 
     // Replace line breaks to br tags
-    $pattern = "/(?<![>\x09\x20])([\x09\x20]*\x0A[\x09\x0A\x20]*)(?![<\x09\x0A\x20])/isu";
+    $pattern = "/(?<![>\x09\x20])([\x09\x20]*\x0A[\x09\x0A\x20]*)(?![<\x09\x20])/isu";
     $string  = preg_replace_callback(
         $pattern,
         create_function('$matches', 'return str_replace("\x0A", "' . $tag . '\x0A", $matches[0]);'),

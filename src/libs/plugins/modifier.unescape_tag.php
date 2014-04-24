@@ -27,12 +27,12 @@
  *
  * Type:     modifier<br>
  * Name:     unescape_tag<br>
- * Purpose:  gets html string including specified unescape tags<br>
+ * Purpose:  gets html string contain specified unescape tags<br>
  * Examples: {$string|unescape_tag:'a,b,strong'}
  *
  * @param string  $string html string
  * @param mixed   $tags   unescape tags, comma separated list of tag names or array of tag names
- * @return string returns html string including specified unescape tags
+ * @return string returns html string contain specified unescape tags
  */
 function smarty_modifier_unescape_tag($string, $tags = null)
 {
