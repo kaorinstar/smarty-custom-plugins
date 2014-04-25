@@ -73,7 +73,11 @@ function smarty_modifier_nl2br($string, $xhtml = false)
         $pattern,
         function($matches) use($tag)
         {
-            return str_replace($tag, '', $matches[0]);
+            return preg_replace(
+                "/" . $tag . "([\x09\x20]*\x0A)/is" . Smarty::$_UTF8_MODIFIER,
+                '$1',
+                $matches[0]
+            );
         },
         $string
     );
