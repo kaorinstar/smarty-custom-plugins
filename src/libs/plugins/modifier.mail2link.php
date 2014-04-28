@@ -16,7 +16,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @copyright  2013 Kaoru Ishikura
+ * @copyright  2014 Kaoru Ishikura
  * @author     Kaoru Ishikura
  * @package    Smarty
  * @subpackage PluginsModifier
@@ -36,40 +36,49 @@
  */
 function smarty_modifier_mail2link($string)
 {
-    require_once(SMARTY_PLUGINS_DIR . 'function.mailto.php');
     $string = str_replace(array("\x0D\x0A", "\x0D"), "\x0A", $string);
 
-    $pattern = "/(?:\A|<\/(?:a|pre|script|style|textarea)(?:|[^\"'<>a-zA-Z0-9][^\"'<>]*(?:\"[^\"]*\"[^\"'<>]*|'[^']*'[^\"'<>]*)*)(?:>|(?=<)|\z)).*?"
-             . "(?:\z|<(?:a|pre|script|style|textarea)(?:|[^\"'<>a-zA-Z0-9][^\"'<>]*(?:\"[^\"]*\"[^\"'<>]*|'[^']*'[^\"'<>]*)*)(?:>|(?=<)|\z))/is"
+    $pattern = "/((?:\A|<\/(?:a|pre|script|style|select|textarea)(?:|[^\"'<>a-zA-Z0-9][^\"'<>]*"
+             . "(?:\"[^\"]*\"[^\"'<>]*|'[^']*'[^\"'<>]*)*)(?:>|(?=<)|\z)))(.*?)"
+             . "((?:\z|<(?:a|pre|script|style|select|textarea)(?:|[^\"'<>a-zA-Z0-9][^\"'<>]*"
+             . "(?:\"[^\"]*\"[^\"'<>]*|'[^']*'[^\"'<>]*)*)(?:>|(?=<)|\z)))/is"
              . Smarty::$_UTF8_MODIFIER;
     $string  = preg_replace_callback(
         $pattern,
         function($matches)
         {
-            $pattern    = "/(?:\A|(?<=>))(?:[^<>\x0A][^<>]*?|\x0A[^<>]+?)(?:(?=[<>])|\z)/is"
-                        . Smarty::$_UTF8_MODIFIER;
-            $matches[0] = preg_replace_callback(
-                $pattern,
-                function($matches)
-                {
-                    if (trim($matches[0]) !== '') {
-                        $pattern    = "/(?:(?:(?:(?:[a-zA-Z0-9_!#\$\%&'*+\/=?\^`{}~|\-]+)(?:\.(?:[a-zA-Z0-9_!#\$\%&'*+\/=?\^`{}~|\-]+))*)|(?:\"(?:\\[^\x0D\x0A]|[^\\\"])*\")))"
-                                    . "@(?:(?:(?:[a-zA-Z0-9_!#\$\%&'*+\/=?\^`{}~|\-]+)(?:\.(?:[a-zA-Z0-9_!#\$\%&'*+\/=?\^`{}~|\-]+))*))/"
-                                    . Smarty::$_UTF8_MODIFIER;
-                        $matches[0] = preg_replace_callback(
-                            $pattern,
-                            function($matches)
-                            {
-                                return smarty_function_mailto(array('address' => $matches[0], 'encode'  => 'hex'), null);
-                            },
-                            $matches[0]
-                        );
-                    }
+            if (trim($matches[2]) !== '') {
+                $pattern    = "/(=[\"'])?(?:[-!#-'*+\/-9=?A-Z^-~]+(?:\.[-!#-'*+\/-9=?A-Z^-~]+)*"
+                            . "|\"(?:[!#-\[\]-~]|\\[\x09 -~])*\")@[-!#-'*+\/-9=?A-Z^-~]+"
+                            . "(?:\.[-!#-'*+\/-9=?A-Z^-~]+)*/i"
+                            . Smarty::$_UTF8_MODIFIER;
+                $matches[2] = preg_replace_callback(
+                    $pattern,
+                    function($matches)
+                    {
+                        if ( ! empty($matches[1])) {
+                            return $matches[0];
+                        }
+                        $address = '';
+                        for ($i = 0, $len = strlen($matches[0]); $i < $len; $i++) {
+                            if (preg_match('/\w/' . Smarty::$_UTF8_MODIFIER, $matches[0][$i])) {
+                                $address .= '%' . bin2hex($matches[0][$i]);
+                            } else {
+                                $address .= $matches[0][$i];
+                            }
+                        }
+                        $text = '';
+                        for ($i = 0, $len = strlen($matches[0]); $i < $len; $i++) {
+                            $text .= '&#x' . bin2hex($matches[0][$i]) . ';';
+                        }
 
-                    return $matches[0];
-                },
-                $matches[0]
-            );
+                        return '<a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;' . $address . '">' . $text . '</a>';
+                    },
+                    $matches[2]
+                );
+
+                return $matches[1] . $matches[2] . $matches[3];
+            }
 
             return $matches[0];
         },

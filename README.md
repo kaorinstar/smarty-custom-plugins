@@ -72,7 +72,6 @@ Returns HTML string contain automatically linked URLs.
 
 ## 6. References
 * OHZAKI Hiroki. [Perl memo](http://www.din.or.jp/~ohzaki/perl.htm).
-* Dan Kogai. [404 Blog Not Found](http://blog.livedoor.jp/dankogai/archives/51190099.html).
 
 ## 7. Acknowledgements
 Special thanks to bloggers who inspired.

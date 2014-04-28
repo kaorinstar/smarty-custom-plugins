@@ -16,7 +16,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
- * @copyright  2013 Kaoru Ishikura
+ * @copyright  2014 Kaoru Ishikura
  * @author     Kaoru Ishikura
  * @package    Smarty
  * @subpackage PluginsModifier
@@ -87,7 +87,7 @@ function smarty_modifier_filesize($path, $symbol = '', $decimals = 0, $separator
     }
 
     $size = number_format($size, $decimals);
-    if (!$separator) {
+    if ( ! $separator) {
         $size = str_replace(',', '', $size);
     }
 

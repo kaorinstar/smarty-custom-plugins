@@ -39,7 +39,7 @@ function smarty_modifier_nl2br($string, $xhtml = false)
     $tag    = ($xhtml) ? '<br />' : '<br>';
     $string = str_replace(array("\x0D\x0A", "\x0D"), "\x0A", $string);
 
-    // Replace line breaks to a space in tags
+    // Replace a line break to a space in tags
     $pattern = "/<[^\"'<>]*(?:\"[^\"]*\"[^\"'<>]*|'[^']*'[^\"'<>]*)*(?:>|(?=<)|\z)/is"
              . Smarty::$_UTF8_MODIFIER;
     $string  = preg_replace_callback(
@@ -51,33 +51,48 @@ function smarty_modifier_nl2br($string, $xhtml = false)
         $string
     );
 
-    // Replace line breaks to a line break between tags
-    $pattern = "/(?<=>)\x0A[\x09\x0A\x20]*(\x0A[\x09\x20]*)(?=<)/is"
+    // Replace line breaks to a line break before specific tags
+    $pattern = "/(?<=>)[\x09\x20]*\x0A[\x09\x0A\x20]*(\x0A[\x09\x20]*)"
+             . "(?=<(?:li|d[dt]|t[dh]|\/[dou]l|\/table|\/?t(?:r|body|head|foot)|caption|col"
+             . "|\/?colgroup|figcaption|legend|summary|param|embed|frame|\/framset|noframes)"
+             . "(?:(?:>|(?=<)|\z)|[^\"'<>a-zA-Z0-9]))/is"
              . Smarty::$_UTF8_MODIFIER;
     $string  = preg_replace($pattern, '$1', $string);
 
-    // Replace line breaks to br tags
-    $pattern = "/((?<![>])[\x09\x20]*\x0A[\x09\x20]*(?![<\x09\x20])|"
-             . "(?<=>)[\x09\x20]*\x0A[\x09\x20]*(?![<\x09\x20])|"
-             . "(?<![>\x09\x20])[\x09\x20]*\x0A[\x09\x20]*(?=<))/is"
-             . Smarty::$_UTF8_MODIFIER;
-    $string  = preg_replace($pattern, $tag . '$1', $string);
+    // Insert a br tag before line breaks
+    $string  = nl2br($string, $xhtml);
 
-    // Remove br tags in between specified tags
-    $pattern = "/<(pre|script|style|textarea)(?:|[^\"'<>a-zA-Z0-9][^\"'<>]*"
-             . "(?:\"[^\"]*\"[^\"'<>]*|'[^']*'[^\"'<>]*)*)(?:>|(?=<)|\z).*?"
-             . "<\/\\1(?:|[^\"'<>a-zA-Z0-9][^\"'<>]*(?:\"[^\"]*\"[^\"'<>]*|"
-             . "'[^']*'[^\"'<>]*)*)(?:>|(?=<)|\z)/is"
+    // Remove a br tag before specific tags
+    $pattern = "/(?<=>)" . $tag . "([\x09\x20]*\x0A[\x09\x20]*)"
+             . "(?=<(?:li|d[dt]|t[dh]|\/[dou]l|\/table|\/?t(?:r|body|head|foot)|caption|col"
+             . "|\/?colgroup|figcaption|legend|summary|param|embed|frame|\/framset|noframes)"
+             . "(?:(?:>|(?=<)|\z)|[^\"'<>a-zA-Z0-9]))/is"
+             . Smarty::$_UTF8_MODIFIER;
+    $string  = preg_replace($pattern, '$1', $string);
+
+    // Remove br tags in between specific tags
+    $pattern = "/<(pre|script|style|select|textarea|map|canvas|svg|video|audio)"
+             . "(?:|[^\"'<>a-zA-Z0-9][^\"'<>]*(?:\"[^\"]*\"[^\"'<>]*|'[^']*'[^\"'<>]*)*)"
+             . "(?:>|(?=<)|\z).*?<\/\\1(?:|[^\"'<>a-zA-Z0-9][^\"'<>]*"
+             . "(?:\"[^\"]*\"[^\"'<>]*|'[^']*'[^\"'<>]*)*)(?:>|(?=<)|\z)/is"
              . Smarty::$_UTF8_MODIFIER;
     $string  = preg_replace_callback(
         $pattern,
         function($matches) use($tag)
         {
-            return preg_replace(
-                "/" . $tag . "([\x09\x20]*\x0A)/is" . Smarty::$_UTF8_MODIFIER,
-                '$1',
-                $matches[0]
-            );
+            return str_replace($tag . "\x0A", "\x0A", $matches[0]);
+        },
+        $string
+    );
+
+    // Remove br tags in comment tags
+    $pattern = "/(<!(?:--(?:(?!--).)*--\s*)*>[\x09\x20]*)(?:" . $tag . ")?/is"
+             . Smarty::$_UTF8_MODIFIER;
+    $string  = preg_replace_callback(
+        $pattern,
+        function($matches) use($tag)
+        {
+            return str_replace($tag, '', $matches[1]);
         },
         $string
     );
