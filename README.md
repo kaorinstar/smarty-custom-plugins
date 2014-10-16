@@ -14,7 +14,7 @@ This is Smarty custom plugins.
 
 ## 1. Requirements
 * Smarty custom plugins 2.x: PHP 5.3+, Smarty 3+
-* Smarty custom plugins 1.x: PHP 4 or 5, Smarty 2+
+* <del>Smarty custom plugins 1.x: PHP 4 or 5, Smarty 2+</del> (1.x is no longer supported.)
 
 ## 2. Installation
 1. Download Smarty custom plugins.

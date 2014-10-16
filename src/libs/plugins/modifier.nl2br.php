@@ -54,7 +54,7 @@ function smarty_modifier_nl2br($string, $xhtml = false)
     // Replace line breaks to a line break before specific tags
     $pattern = "/(?<=>)[\x09\x20]*\x0A[\x09\x0A\x20]*(\x0A[\x09\x20]*)"
              . "(?=<(?:li|d[dt]|t[dh]|\/[dou]l|\/table|\/?t(?:r|body|head|foot)|caption|col"
-             . "|\/?colgroup|figcaption|legend|summary|param|embed|frame|\/framset|noframes)"
+             . "|\/?colgroup|figcaption|legend|summary|param|embed|frame|\/?framset|noframes)"
              . "(?:(?:>|(?=<)|\z)|[^\"'<>a-zA-Z0-9]))/is"
              . Smarty::$_UTF8_MODIFIER;
     $string  = preg_replace($pattern, '$1', $string);
@@ -65,7 +65,7 @@ function smarty_modifier_nl2br($string, $xhtml = false)
     // Remove a br tag before specific tags
     $pattern = "/(?<=>)" . $tag . "([\x09\x20]*\x0A[\x09\x20]*)"
              . "(?=<(?:li|d[dt]|t[dh]|\/[dou]l|\/table|\/?t(?:r|body|head|foot)|caption|col"
-             . "|\/?colgroup|figcaption|legend|summary|param|embed|frame|\/framset|noframes)"
+             . "|\/?colgroup|figcaption|legend|summary|param|embed|frame|\/?framset|noframes)"
              . "(?:(?:>|(?=<)|\z)|[^\"'<>a-zA-Z0-9]))/is"
              . Smarty::$_UTF8_MODIFIER;
     $string  = preg_replace($pattern, '$1', $string);
