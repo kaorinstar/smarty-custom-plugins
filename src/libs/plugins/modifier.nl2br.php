@@ -60,11 +60,13 @@ function smarty_modifier_nl2br($string, $xhtml = false)
     $string  = preg_replace($pattern, '$1', $string);
 
     // Insert a br tag before line breaks
-    $string  = nl2br($string, $xhtml);
-
-    // Remove a br tag after tags and line breaks
-    $pattern = "/(?<=>)" . $tag . "(?=[\x09\x20]*\x0A)/is" . Smarty::$_UTF8_MODIFIER;
-    $string  = preg_replace($pattern, '', $string);
+    $pattern = "/(<\/(?:a|span|em|strong|img|abbr|b|i|u|s|big|small|font|code|sub|sup|"
+             . "bdo|cite|dfn|kbd|q|samp|strike|var)(?:|[^\"'<>a-zA-Z0-9][^\"'<>]*"
+             . "(?:\"[^\"]*\"[^\"'<>]*|'[^']*'[^\"'<>]*)*)>?)(?=[\x09\x20]*\x0A)/is"
+             . Smarty::$_UTF8_MODIFIER;
+    $string  = preg_replace($pattern, '\1<br>', $string);
+    $pattern = "/(?<!>)(?=[\x09\x20]*\x0A)/is" . Smarty::$_UTF8_MODIFIER;
+    $string  = preg_replace($pattern, '<br>', $string);
 
     // Remove br tags in between specific tags
     $pattern = "/<(pre|script|style|select|textarea|map|canvas|svg|video|audio)"
@@ -82,7 +84,7 @@ function smarty_modifier_nl2br($string, $xhtml = false)
     );
 
     // Remove br tags in comment tags
-    $pattern = "/(<!(?:--(?:(?!--).)*--\s*)*>[\x09\x20]*)(?:" . $tag . ")?/is"
+    $pattern = "/(<!(?:--(?:(?!--).)*--\s*)*>[\x09\x20]*)(?:" . preg_quote($tag, '/') . ")?/is"
              . Smarty::$_UTF8_MODIFIER;
     $string  = preg_replace_callback(
         $pattern,
