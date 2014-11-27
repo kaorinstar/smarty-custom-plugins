@@ -62,13 +62,9 @@ function smarty_modifier_nl2br($string, $xhtml = false)
     // Insert a br tag before line breaks
     $string  = nl2br($string, $xhtml);
 
-    // Remove a br tag before specific tags
-    $pattern = "/(?<=>)" . $tag . "([\x09\x20]*\x0A[\x09\x20]*)"
-             . "(?=<(?:li|d[dt]|t[dh]|\/[dou]l|\/table|\/?t(?:r|body|head|foot)|caption|col"
-             . "|\/?colgroup|figcaption|legend|summary|param|embed|frame|\/?framset|noframes)"
-             . "(?:(?:>|(?=<)|\z)|[^\"'<>a-zA-Z0-9]))/is"
-             . Smarty::$_UTF8_MODIFIER;
-    $string  = preg_replace($pattern, '$1', $string);
+    // Remove a br tag after a tag and a line break
+    $pattern = "/(?<=>)" . $tag . "(?=[\x09\x20]*\x0A)/is" . Smarty::$_UTF8_MODIFIER;
+    $string  = preg_replace($pattern, '', $string);
 
     // Remove br tags in between specific tags
     $pattern = "/<(pre|script|style|select|textarea|map|canvas|svg|video|audio)"
